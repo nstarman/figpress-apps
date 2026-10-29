@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { shade } from "figkit/globe.js";
-import { trackball, mat3 } from "figkit/geom.js";
+import { shade } from "figpress-apps/globe.js";
+import { trackball, mat3 } from "figpress-apps/geom.js";
 
 const H = 19, W = 37;
 const tex = { shape: [H, W, 4], data: new Uint8Array(H * W * 4).map((_, i) => (i * 37) % 251) };

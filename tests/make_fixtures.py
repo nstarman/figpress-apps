@@ -1,4 +1,4 @@
-"""Write fixtures for the JS tests (js-tests/fixtures/), using numpy and figkit.export.
+"""Write fixtures for the JS tests (js-tests/fixtures/), using numpy and figpress_apps.export.
 
 Run before `node --test js-tests/*.test.js`:  uv run python tests/make_fixtures.py
 """
@@ -10,7 +10,7 @@ from pathlib import Path
 
 import numpy as np
 
-import figkit
+import figpress_apps
 
 OUT = Path(__file__).resolve().parents[1] / "js-tests" / "fixtures"
 DTYPES = ["<f4", "<f8", "|i1", "|u1", "<i2", "<u2", "<i4", "<u4", "|b1"]
@@ -50,7 +50,7 @@ def main():
     np.save(OUT / "fortran.npy", np.asfortranarray(np.arange(6, dtype="<f4").reshape(2, 3)))
     np.save(OUT / "int64.npy", np.arange(3, dtype="<i8"))
 
-    figkit.export(OUT, "ds", {"track": values("<f4", (5, 3)), "flag": values("|b1", (5,))},
+    figpress_apps.export(OUT, "ds", {"track": values("<f4", (5, 3)), "flag": values("|b1", (5,))},
                   meta={"title": "fixture"}, json={"style": {"color": "#123456"}})
 
     rng = np.random.default_rng(1)

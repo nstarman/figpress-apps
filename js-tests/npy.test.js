@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseNpy, asTyped } from "figkit/npy.js";
+import { parseNpy, asTyped } from "figpress-apps/npy.js";
 import { read, expected } from "./helpers.js";
 
 const CLASS = { "<f4": Float32Array, "<f8": Float64Array, "|i1": Int8Array, "|u1": Uint8Array,

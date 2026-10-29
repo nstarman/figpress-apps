@@ -1,9 +1,9 @@
 // The globe example app. It is an anywidget module, so the same file runs on the web page
-// (through figkit's `run`) and in Jupyter/marimo (through figkit.anywidget.Widget).
+// (through figpress-apps' `run`) and in Jupyter/marimo (through figpress_apps.anywidget.Widget).
 
-import { loadData } from "figkit/data.js";
-import { mount as mountGlobe } from "figkit/globe.js";
-import { mount as mountPanel } from "figkit/skypanel.js";
+import { loadData } from "figpress-apps/data.js";
+import { mount as mountGlobe } from "figpress-apps/globe.js";
+import { mount as mountPanel } from "figpress-apps/skypanel.js";
 import { streamFromData, classify, markerAxes } from "app/science.js";
 
 export default {
@@ -19,7 +19,7 @@ export default {
     model.save_changes();
 
     el.classList.add("fk-app");
-    el.dataset.figkitApp = "";
+    el.dataset.figpressApp = "";
     const toolbar = document.createElement("div");
     toolbar.className = "fk-toolbar";
     const button = (label, fn) => {

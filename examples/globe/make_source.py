@@ -2,7 +2,7 @@
 
 The convexities single-galaxy paper's pipeline (src/scripts/data_streams_globe.py with
 GLOBE_EXPLORER=1) writes a self-contained page, globe_explorer.html, with every array embedded as
-base64. This script reads that page with numpy alone, so figkit never depends on the paper's
+base64. This script reads that page with numpy alone, so figpress-apps never depends on the paper's
 environment. Run once:
 
     python examples/globe/make_source.py PATH/TO/globe_explorer.html

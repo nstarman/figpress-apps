@@ -1,7 +1,7 @@
 // The globe example reproduces the paper's non-concave fractions at the paper's views.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { loadData } from "figkit/data.js";
+import { loadData } from "figpress-apps/data.js";
 import { streamFromData, classify } from "../examples/globe/science.js";
 import { fixtureFetch } from "./helpers.js";
 

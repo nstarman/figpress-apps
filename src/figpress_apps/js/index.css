@@ -1,0 +1,35 @@
+/* figpress-apps base styles. Apps may override any variable. */
+:root {
+  --fk-bg: #ffffff; --fk-fg: #222222; --fk-muted: #666666; --fk-line: #d0d0d0;
+  --fk-accent: #3b6ea8; --fk-error-bg: #fff2f0; --fk-error-fg: #8a1f11;
+  --fk-font: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fk-bg: #15181d; --fk-fg: #e3e6ea; --fk-muted: #9aa3ad; --fk-line: #3a414b;
+    --fk-accent: #8ab4e8; --fk-error-bg: #3a1e1b; --fk-error-fg: #ffb4a8;
+  }
+}
+.fk-app { font: 13px/1.4 var(--fk-font); color: var(--fk-fg); background: var(--fk-bg); container-type: inline-size; }
+.fk-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; color: var(--fk-muted); }
+.fk-toolbar button {
+  font: inherit; font-size: 12px; padding: 3px 10px; cursor: pointer; color: var(--fk-fg);
+  background: var(--fk-bg); border: 1px solid var(--fk-line); border-radius: 4px;
+}
+.fk-toolbar button:hover { border-color: var(--fk-accent); }
+.fk-grid { display: grid; gap: 12px; }
+/* Layouts that respond to the app's own width (container queries), so they also adapt in a
+   narrow notebook cell, not only on a narrow screen. */
+.fk-split { display: grid; gap: 12px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: start; }
+.fk-grid-2 { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@container (max-width: 760px) { .fk-split { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 320px) { .fk-grid-2 { grid-template-columns: minmax(0, 1fr); } }
+.fk-panel { border: 2px solid var(--fk-line); border-radius: 4px; padding: 6px; min-width: 0; }
+.fk-panel-head { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 8px; font-weight: 600; margin-bottom: 4px; }
+.fk-readout { white-space: nowrap; } /* titles may wrap; a readout stays on one line */
+.fk-readout { font-weight: 400; color: var(--fk-muted); font-variant-numeric: tabular-nums; }
+.fk-plot { position: relative; width: 100%; aspect-ratio: 1; }
+.fk-error {
+  padding: 12px 14px; border-radius: 4px; background: var(--fk-error-bg); color: var(--fk-error-fg);
+  font: 14px/1.4 var(--fk-font);
+}

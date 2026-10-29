@@ -10,7 +10,7 @@ import shutil
 import sys
 from pathlib import Path
 
-import figkit
+import figpress_apps
 
 HERE = Path(__file__).parent
 
@@ -23,7 +23,7 @@ EXAMPLES = [
 
 PAGE = """<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>figkit gallery</title>
+<title>figpress-apps gallery</title>
 <style>
   body {{ margin: 0; font: 15px/1.5 system-ui, sans-serif; color: #222; background: #fff; }}
   main {{ max-width: 760px; margin: 0 auto; padding: 24px 16px; }}
@@ -32,9 +32,9 @@ PAGE = """<!doctype html>
   .ex {{ border-top: 1px solid #8884; padding: 12px 0; }} .meta {{ color: #888; font-size: 13px; }}
 </style></head>
 <body><main>
-<h1>figkit gallery</h1>
+<h1>figpress-apps gallery</h1>
 <p>Interactive counterparts of paper figures, built with
-<a href="https://github.com/nstarman/figkit">figkit</a> {version}.</p>
+<a href="https://github.com/nstarman/figpress-apps">figpress-apps</a> {version}.</p>
 {items}
 </main></body></html>
 """
@@ -44,7 +44,7 @@ ITEM = """<div class="ex"><h2><a href="{slug}/">{title}</a></h2><p>{text}</p>
 
 # Added to each example page by the gallery only: the examples stay standalone pages that papers reuse.
 BACK = ('<nav style="max-width:1200px;margin:0 auto;padding:12px 16px 0;font:14px/1.4 system-ui,sans-serif">'
-        '<a href="{href}" style="color:var(--fk-accent,#3b6ea8);text-decoration:none">← figkit gallery</a></nav>')
+        '<a href="{href}" style="color:var(--fk-accent,#3b6ea8);text-decoration:none">← figpress-apps gallery</a></nav>')
 
 
 def add_back_link(page: Path, href: str) -> None:
@@ -58,7 +58,7 @@ def build_example(slug: str, site: Path, data_dir: Path) -> None:
     export = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(export)
     dataset = export.main(data_dir)
-    res = figkit.build(HERE / slug, data=[dataset], out=site / slug, single_file=site / f"{slug}.html")
+    res = figpress_apps.build(HERE / slug, data=[dataset], out=site / slug, single_file=site / f"{slug}.html")
     add_back_link(res.out / "index.html", "../")
     add_back_link(res.single_file, "index.html")  # explicit: file:// does not open a folder's index
 
@@ -69,7 +69,7 @@ def main(site: Path) -> None:
     for slug, *_ in EXAMPLES:
         build_example(slug, site, site.parent / f"{site.name}-data")
     items = "\n".join(ITEM.format(slug=s, title=t, text=x, cite=c, url=u) for s, t, x, c, u in EXAMPLES)
-    (site / "index.html").write_text(PAGE.format(version=figkit.__version__, items=items), encoding="utf-8")
+    (site / "index.html").write_text(PAGE.format(version=figpress_apps.__version__, items=items), encoding="utf-8")
 
 
 if __name__ == "__main__":

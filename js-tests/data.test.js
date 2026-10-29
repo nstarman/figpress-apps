@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { loadData, FigkitDataError } from "figkit/data.js";
+import { loadData, DataError } from "figpress-apps/data.js";
 import { read, fixtureFetch } from "./helpers.js";
 
 const b64 = (buf) => Buffer.from(buf).toString("base64");
@@ -23,17 +23,17 @@ test("loads from a data:-URL map (single-file build)", async () => {
 
 test("errors name the missing file and version mismatch", async () => {
   await assert.rejects(loadData("nope", { fetch: fixtureFetch, base: "fixtures/" }),
-    (e) => e instanceof FigkitDataError && /nope\/manifest\.json/.test(e.message));
+    (e) => e instanceof DataError && /nope\/manifest\.json/.test(e.message));
   const m = JSON.parse(new TextDecoder().decode(read("ds/manifest.json")));
-  const bad = { ...m, figkit_data: 2 };
+  const bad = { ...m, figpress_apps_data: 2 };
   const fetch2 = async (url) => (String(url).endsWith("manifest.json")
     ? { ok: true, json: async () => bad } : fixtureFetch(url));
   await assert.rejects(loadData("ds", { fetch: fetch2, base: "fixtures/" }),
-    (e) => e instanceof FigkitDataError && /figkit_data 2/.test(e.message) && /1/.test(e.message));
+    (e) => e instanceof DataError && /figpress_apps_data 2/.test(e.message) && /1/.test(e.message));
 });
 
 test("loads from a notebook model (DataView buffers)", async () => {
-  const { createModel } = await import("figkit/model.js");
+  const { createModel } = await import("figpress-apps/model.js");
   const manifest = JSON.parse(new TextDecoder().decode(read("ds/manifest.json")));
   const arrays = {}, json = { style: JSON.parse(new TextDecoder().decode(read("ds/style.json"))) };
   for (const [k, e] of Object.entries(manifest.entries)) {
@@ -47,4 +47,15 @@ test("loads from a notebook model (DataView buffers)", async () => {
   assert.deepEqual(Array.from(d.arrays.track.data), Array.from(byName.arrays.track.data));
   assert.deepEqual(d.arrays.track.shape, [5, 3]);
   assert.deepEqual(d.json.style, { color: "#123456" });
+});
+
+test("loads a dataset written by figkit (figkit_data / figkit keys)", async () => {
+  const { createModel } = await import("figpress-apps/model.js");
+  const current = JSON.parse(new TextDecoder().decode(read("ds/manifest.json")));
+  const { figpress_apps_data, figpress_apps, ...rest } = current;
+  const manifest = { figkit_data: figpress_apps_data, figkit: figpress_apps, ...rest };
+  const arrays = {}, json = { style: JSON.parse(new TextDecoder().decode(read("ds/style.json"))) };
+  for (const [k, e] of Object.entries(manifest.entries)) if (e.kind === "array") arrays[k] = read(`ds/${e.file}`);
+  const d = await loadData(createModel({ manifest, arrays, json }));
+  assert.deepEqual(d.arrays.track.shape, [5, 3]);
 });

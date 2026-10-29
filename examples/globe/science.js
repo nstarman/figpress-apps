@@ -2,7 +2,7 @@
 // and classify each track point. A point is non-concave when its projected curvature normal has
 // no component toward the projected centre (the paper's criterion).
 
-import { unit, mat3, rotationToZ } from "figkit/geom.js";
+import { unit, mat3, rotationToZ } from "figpress-apps/geom.js";
 
 /** One stream's arrays and frame from the loaded dataset. */
 export function streamFromData(data, id) {

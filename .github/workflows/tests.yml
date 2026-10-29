@@ -23,9 +23,9 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: uv sync --all-extras
       - run: uv run pytest
-      - name: Release tag matches figkit.__version__
+      - name: Release tag matches figpress_apps.__version__
         if: startsWith(github.ref, 'refs/tags/v')
-        run: test "${GITHUB_REF_NAME}" = "v$(uv run python -c 'import figkit; print(figkit.__version__)')"
+        run: test "${GITHUB_REF_NAME}" = "v$(uv run python -c 'import figpress_apps; print(figpress_apps.__version__)')"
 
   js:
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
       - run: uv run playwright install --with-deps ${{ matrix.browser }}
       - run: uv run pytest -m smoke --browser ${{ matrix.browser }}
 
-  # A live preview of the gallery for every pull request, so a change to figkit can be looked at,
+  # A live preview of the gallery for every pull request, so a change to figpress-apps can be looked at,
   # not imagined. GitHub Pages serves one deployment (the released gallery), so previews go to
   # Cloudflare Pages, as for the website. Setup, once:
   #
@@ -65,7 +65,7 @@ jobs:
   #        CLOUDFLARE_API_TOKEN    the token from step 1
   #        CLOUDFLARE_ACCOUNT_ID   the ID in the Cloudflare dashboard's right-hand sidebar
   #
-  # The Pages project ("figkit") is created by the job if missing. Until the secrets exist, and for
+  # The Pages project ("figpress-apps") is created by the job if missing. Until the secrets exist, and for
   # pull requests from forks (which cannot read secrets), the job passes without deploying.
   preview:
     if: github.event_name == 'pull_request'
@@ -100,7 +100,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages project create figkit --production-branch=main
+          command: pages project create figpress-apps --production-branch=main
         continue-on-error: true  # "already exists" is the normal case
       - if: steps.guard.outputs.ready == 'true'
         id: deploy
@@ -108,15 +108,15 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy site --project-name=figkit --branch=pr-${{ github.event.number }}
+          command: pages deploy site --project-name=figpress-apps --branch=pr-${{ github.event.number }}
       - if: steps.guard.outputs.ready == 'true'
         uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: preview
           message: |
-            **Preview:** ${{ steps.deploy.outputs.deployment-alias-url || format('https://pr-{0}.figkit.pages.dev', github.event.number) }}
+            **Preview:** ${{ steps.deploy.outputs.deployment-alias-url || format('https://pr-{0}.figpress-apps.pages.dev', github.event.number) }}
 
-            The gallery with this branch's figkit; the link always shows the latest push.
+            The gallery with this branch's figpress-apps; the link always shows the latest push.
             This build (`${{ github.event.pull_request.head.sha }}`): ${{ steps.deploy.outputs.deployment-url }}
 
   # The one check to require in branch protection: green only when every job above is (preview is

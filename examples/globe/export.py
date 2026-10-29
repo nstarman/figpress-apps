@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
-import figkit
+import figpress_apps
 
 HERE = Path(__file__).parent
 PAPER = "https://ui.adsabs.harvard.edu/abs/2026arXiv260940057S/abstract"
@@ -56,7 +56,7 @@ def main(out: Path) -> Path:
         "cap_deg": float(s["cap_deg"]),
     }
     units = {f"{i}_{k}": "kpc" for i in ids for k in ("pos", "points")}
-    return figkit.export(out, "globe", arrays, meta=meta, units=units, descriptions=descriptions,
+    return figpress_apps.export(out, "globe", arrays, meta=meta, units=units, descriptions=descriptions,
                          licence="MIT", overwrite=True)
 
 
