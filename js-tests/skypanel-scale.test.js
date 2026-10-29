@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { autoscale } from "figkit/skypanel.js";
+import { autoscale } from "figpress-apps/skypanel.js";
 
 test("equal aspect, contains the track, centred on its mid-range", () => {
   const xy = new Float32Array([0, 0, 10, 2, 4, -6]);

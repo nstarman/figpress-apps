@@ -1,0 +1,4 @@
+{
+  "name": "figpress-apps-upgrade",
+  "description": "Moves a figpress-apps webapp to a newer figpress-apps version by applying the changelog's migration notes in order, then rebuilds and re-checks that the app still reproduces the paper's numbers."
+}

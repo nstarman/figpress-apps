@@ -3,7 +3,7 @@ requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"
 
 [project]
-name = "figkit"
+name = "figpress-apps"
 dynamic = ["version"]
 description = "Toolbox for webapps that are the interactive counterparts of scientific papers"
 readme = "README.md"
@@ -16,22 +16,22 @@ dependencies = ["numpy>=1.24"]
 notebook = ["anywidget>=0.11,<0.12"]
 
 [project.scripts]
-figkit = "figkit.cli:main"
+figpress-apps = "figpress_apps.cli:main"
 
 [dependency-groups]
 dev = ["pytest>=8", "pytest-playwright>=0.10"]
 
 [tool.hatch.version]
-path = "src/figkit/__init__.py"
+path = "src/figpress_apps/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/figkit"]
+packages = ["src/figpress_apps"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"CHANGELOG.md" = "figkit/CHANGELOG.md"
+"CHANGELOG.md" = "figpress_apps/CHANGELOG.md"
 
 [tool.hatch.build.targets.sdist]
-include = ["src/figkit", "README.md", "LICENSE", "CHANGELOG.md"]
+include = ["src/figpress_apps", "README.md", "LICENSE", "CHANGELOG.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

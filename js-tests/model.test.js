@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createModel } from "figkit/model.js";
+import { createModel } from "figpress-apps/model.js";
 
 test("get/set and change events by identity", () => {
   const m = createModel({ a: 1 });

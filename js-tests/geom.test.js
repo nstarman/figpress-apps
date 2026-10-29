@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { dot, norm, unit, mat3, rotationToZ, trackball, project, unproject, facing } from "figkit/geom.js";
+import { dot, norm, unit, mat3, rotationToZ, trackball, project, unproject, facing } from "figpress-apps/geom.js";
 import { expected } from "./helpers.js";
 
 const close = (a, b, tol = 1e-9) => a.forEach((x, i) => assert.ok(Math.abs(x - b[i]) < tol, `${i}: ${x} vs ${b[i]}`));

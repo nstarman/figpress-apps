@@ -1,7 +1,7 @@
 {
-  "name": "figkit",
+  "name": "figpress-apps",
   "private": true,
-  "description": "Test-only: lets `node --test` resolve bare figkit/… imports (no dependencies, no build).",
+  "description": "Test-only: lets `node --test` resolve bare figpress-apps/… imports (no dependencies, no build).",
   "type": "module",
-  "exports": { "./*": "./src/figkit/js/*" }
+  "exports": { "./*": "./src/figpress_apps/js/*" }
 }

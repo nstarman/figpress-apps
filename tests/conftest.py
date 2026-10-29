@@ -18,15 +18,15 @@ def globe_data(tmp_path_factory):
 
 @pytest.fixture(scope="session")
 def globe_site(tmp_path_factory, globe_data):
-    import figkit
+    import figpress_apps
 
     out = tmp_path_factory.mktemp("site")
-    return figkit.build(GLOBE, data=[globe_data], out=out / "globe", single_file=out / "globe.html")
+    return figpress_apps.build(GLOBE, data=[globe_data], out=out / "globe", single_file=out / "globe.html")
 
 
 @pytest.fixture(scope="session")
 def served(globe_site):
-    from figkit.serve import make_server
+    from figpress_apps.serve import make_server
 
     server = make_server(globe_site.out.parent, port=0)
     threading.Thread(target=server.serve_forever, daemon=True).start()
