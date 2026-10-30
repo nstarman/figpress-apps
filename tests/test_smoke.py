@@ -154,16 +154,14 @@ def test_gallery_back_link(page, tmp_path_factory):
 def test_pinned_theme(browser, served):
     """A theme the page pins (<html data-theme>, a site's toggle) wins over the system's, both ways,
     and the app's colours change as it is set."""
-    page = browser.new_page(color_scheme="dark")
-    page.goto(served)
-    page.wait_for_selector('[data-panel="nbody"] .fk-readout:has-text("%")')
-    bg = lambda: page.evaluate("getComputedStyle(document.documentElement).getPropertyValue('--fk-bg').trim()")
-    assert bg() == "#15181d"
-    page.evaluate("document.documentElement.dataset.theme = 'light'")
-    assert bg() == "#ffffff"
-    page.close()
-    page = browser.new_page(color_scheme="light")
-    page.goto(served)
-    page.evaluate("document.documentElement.dataset.theme = 'dark'")
-    assert bg() == "#15181d"
-    page.close()
+    for system, pinned, want in (("dark", "light", "#ffffff"), ("light", "dark", "#15181d")):
+        page = browser.new_page(color_scheme=system)
+        try:
+            page.goto(served)
+            page.wait_for_selector('[data-panel="nbody"] .fk-readout:has-text("%")')
+            bg = lambda: page.evaluate("getComputedStyle(document.documentElement).getPropertyValue('--fk-bg').trim()")
+            assert bg() == ("#15181d" if system == "dark" else "#ffffff")
+            page.evaluate(f"document.documentElement.dataset.theme = '{pinned}'")
+            assert bg() == want
+        finally:
+            page.close()
