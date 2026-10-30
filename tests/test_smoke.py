@@ -149,3 +149,19 @@ def test_gallery_back_link(page, tmp_path_factory):
     page.get_by_role("link", name="← figpress-apps gallery").click()
     page.wait_for_url("**/index.html")
     assert page.locator("h1").inner_text() == "figpress-apps gallery"
+
+
+def test_pinned_theme(browser, served):
+    """A theme the page pins (<html data-theme>, a site's toggle) wins over the system's, both ways,
+    and the app's colours change as it is set."""
+    for system, pinned, want in (("dark", "light", "#ffffff"), ("light", "dark", "#15181d")):
+        page = browser.new_page(color_scheme=system)
+        try:
+            page.goto(served)
+            page.wait_for_selector('[data-panel="nbody"] .fk-readout:has-text("%")')
+            bg = lambda: page.evaluate("getComputedStyle(document.documentElement).getPropertyValue('--fk-bg').trim()")
+            assert bg() == ("#15181d" if system == "dark" else "#ffffff")
+            page.evaluate(f"document.documentElement.dataset.theme = '{pinned}'")
+            assert bg() == want
+        finally:
+            page.close()
