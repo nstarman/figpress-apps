@@ -12,7 +12,7 @@ Every release has a section. Every breaking change has a migration note with thr
 
 A release with a breaking change that has no migration note is not tagged.
 
-## Unreleased
+## 2026.10.29 — 2026-10-29
 
 - Apps follow a theme the page pins with `<html data-theme="light|dark">` (a site's toggle), not only
   the system's: the colours (`index.css`) and the canvases' redraw. With no `data-theme`, as before.
