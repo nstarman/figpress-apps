@@ -38,8 +38,10 @@ export function createStage(el, { draw, onResize } = {}) {
   const ro = new ResizeObserver(resize);
   ro.observe(el);
   watchDpr();
-  const scheme = matchMedia("(prefers-color-scheme: dark)"); // theme colours change with it
+  const scheme = matchMedia("(prefers-color-scheme: dark)"); // theme colours change with it,
   scheme.addEventListener("change", requestDraw);
+  const pinned = new MutationObserver(requestDraw); // and with a theme the page pins (data-theme)
+  pinned.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   resize();
 
   function dispose() {
@@ -47,6 +49,7 @@ export function createStage(el, { draw, onResize } = {}) {
     ro.disconnect();
     mq?.removeEventListener("change", onDpr);
     scheme.removeEventListener("change", requestDraw);
+    pinned.disconnect();
     canvas.remove();
   }
   return stage;

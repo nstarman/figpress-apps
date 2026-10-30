@@ -4,11 +4,17 @@
   --fk-accent: #3b6ea8; --fk-error-bg: #fff2f0; --fk-error-fg: #8a1f11;
   --fk-font: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
+/* Dark with the system, unless the page pins a theme: <html data-theme="light|dark"> (a site's toggle,
+   which an embedding site copies onto the app's frame). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --fk-bg: #15181d; --fk-fg: #e3e6ea; --fk-muted: #9aa3ad; --fk-line: #3a414b;
     --fk-accent: #8ab4e8; --fk-error-bg: #3a1e1b; --fk-error-fg: #ffb4a8;
   }
+}
+:root[data-theme="dark"] {
+    --fk-bg: #15181d; --fk-fg: #e3e6ea; --fk-muted: #9aa3ad; --fk-line: #3a414b;
+    --fk-accent: #8ab4e8; --fk-error-bg: #3a1e1b; --fk-error-fg: #ffb4a8;
 }
 .fk-app { font: 13px/1.4 var(--fk-font); color: var(--fk-fg); background: var(--fk-bg); container-type: inline-size; }
 .fk-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; color: var(--fk-muted); }

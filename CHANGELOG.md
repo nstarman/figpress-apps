@@ -12,6 +12,11 @@ Every release has a section. Every breaking change has a migration note with thr
 
 A release with a breaking change that has no migration note is not tagged.
 
+## Unreleased
+
+- Apps follow a theme the page pins with `<html data-theme="light|dark">` (a site's toggle), not only
+  the system's: the colours (`index.css`) and the canvases' redraw. With no `data-theme`, as before.
+
 ## 2026.10.28 — 2026-10-28
 
 figkit is now **figpress-apps**, a member of the [figpress](https://nstarkman.space/figpress/) family,
